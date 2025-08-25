@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tarea 5 — BEM + Flexbox</title>
+  <style>
+    :root{
+      --bg:#e9f2ff;
+      --chip:#f6e0a9;
+      --muted:#eeeeee;
+      --ink:#232323;
+      --brand:#0a84ff;
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif; margin:0; color:var(--ink); background:#fafafa}
+    h2{font-size:18px;margin:24px 0 12px;padding:0 16px;opacity:.8}
+    .rule{border-top:1px dashed #bbb;margin:18px 0}
+
+    /* Helpers */
+    .chip{display:inline-flex;align-items:center;justify-content:center;padding:.35rem .6rem;border-radius:6px;background:var(--chip);font-size:12px;border:1px solid #d9be75;min-width:56px}
+
+    /* 1) Columna centrada y espaciada */
+    .ex1{max-width:760px;margin:0 auto;padding:0 16px}
+    .ex1__box{height:360px;background:#cfe6ff;border-radius:6px;border:2px solid #b8d6ff;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:24px}
+
+    /* 2) Dos filas: (arriba) items alineados al final, (abajo) items espaciados iguales */
+    .ex2{max-width:780px;margin:0 auto;padding:0 16px}
+    .ex2__row{display:flex;gap:56px;margin:10px 0}
+    .ex2__row--end{justify-content:flex-end}
+    .ex2__row--even{justify-content:space-evenly}
+    .ex2__item{background:var(--muted);border:1px solid #ddd;border-radius:4px;padding:.5rem 1.7rem;font-size:12px}
+
+    /* 3) Tres columnas, con pilas izquierda y derecha */
+    .ex3{max-width:820px;margin:0 auto;padding:0 16px}
+    .ex3__grid{display:flex;justify-content:space-between;gap:40px}
+    .ex3__col{flex:1;display:flex;flex-direction:column;gap:16px}
+    .ex3__card{background:var(--muted);border:1px solid #ddd;border-radius:4px;padding:.5rem 1.3rem;font-size:12px;align-self:flex-start}
+    .ex3__col--center .ex3__card{align-self:center}
+    .ex3__col--right .ex3__card{align-self:flex-end}
+
+    /* 4) Tarjetas solapadas “mosaico” */
+    .ex4{max-width:760px;margin:0 auto;padding:0 16px}
+    .ex4__row{display:flex;gap:0;position:relative}
+    .ex4__tile{width:120px;height:90px;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid #e1e1e1;mix-blend-mode:multiply;font-weight:600}
+    .ex4__tile:nth-child(1){background:#f6d090;margin-right:-20px}
+    .ex4__tile:nth-child(2){background:#f0a9b5;margin-right:-20px}
+    .ex4__tile:nth-child(3){background:#b8d6ff}
+    .ex4__row--bottom{margin-top:-20px;justify-content:center;gap:34px}
+    .ex4__tile--sm{height:88px;width:110px;background:#cdefff}
+    .ex4__tile--sm:nth-child(2){background:#d6c8ff}
+
+    /* 5) Cinta con cards centradas; la #2 es más alta */
+    .ex5{max-width:860px;margin:0 auto;padding:0 16px}
+    .ex5__belt{background:#ffe59e;border:2px solid #f2cc5a;border-radius:10px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:26px}
+    .ex5__pill{background:white;border:2px solid #9ec9ff;border-radius:16px;padding:10px 22px;min-width:90px;display:flex;align-items:center;justify-content:center}
+    .ex5__card{background:white;border:3px solid #7eb7ff;border-radius:14px;min-width:140px;height:86px;display:flex;align-items:center;justify-content:center}
+
+    /* 6) Tarjetas de productos responsive (grid con wrap) */
+    .ex6{max-width:980px;margin:0 auto;padding:0 16px}
+    .ex6__wrap{display:flex;flex-wrap:wrap;gap:18px}
+    .product{width:220px;background:white;border:1px solid #e2e2e2;border-radius:12px;display:flex;flex-direction:column;overflow:hidden}
+    .product__media{height:140px;background:#f3f3f3;display:flex;align-items:center;justify-content:center}
+    .product__img{width:80px;height:80px;background:#ddd;border-radius:8px}
+    .product__body{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+    .product__title{font-size:13px;line-height:1.2}
+    .product__price{font-weight:700}
+    .product__actions{display:flex;justify-content:flex-end;padding:8px 12px}
+    .product__btn{border:none;background:var(--brand);color:white;padding:6px 10px;border-radius:999px;font-size:12px;cursor:pointer}
+
+    /* visual spacing between exercises */
+    .section{padding-bottom:16px}
+    .section + .section{margin-top:8px}
+  </style>
+</head>
+<body>
+  <h2>1. Columna centrada con espacio entre</h2>
+  <section class="section ex1">
+    <div class="ex1__box">
+      <span class="chip">item 4</span>
+      <span class="chip">item 3</span>
+      <span class="chip">item 2</span>
+      <span class="chip">item 1</span>
+    </div>
+  </section>
+  <div class="rule"></div>
+
+  <h2>2. Fila final &amp; fila espaciada</h2>
+  <section class="section ex2">
+    <div class="ex2__row ex2__row--end">
+      <div class="ex2__item">Item 4</div>
+      <div class="ex2__item">Item 5</div>
+    </div>
+    <div class="ex2__row ex2__row--even">
+      <div class="ex2__item">Item 1</div>
+      <div class="ex2__item">Item 2</div>
+      <div class="ex2__item">Item 3</div>
+    </div>
+  </section>
+  <div class="rule"></div>
+
+  <h2>3. Tres columnas con pilas izquierda y derecha</h2>
+  <section class="section ex3">
+    <div class="ex3__grid">
+      <div class="ex3__col ex3__col--left">
+        <div class="ex3__card">Item 5</div>
+        <div class="ex3__card">Item 3</div>
+      </div>
+      <div class="ex3__col ex3__col--center">
+        <div class="ex3__card">Item 2</div>
+      </div>
+      <div class="ex3__col ex3__col--right">
+        <div class="ex3__card">Item 4</div>
+        <div class="ex3__card">Item 1</div>
+      </div>
+    </div>
+  </section>
+  <div class="rule"></div>
+
+  <h2>4. Mosaico solapado</h2>
+  <section class="section ex4">
+    <div class="ex4__row">
+      <div class="ex4__tile">1</div>
+      <div class="ex4__tile">2</div>
+      <div class="ex4__tile">3</div>
+    </div>
+    <div class="ex4__row ex4__row--bottom">
+      <div class="ex4__tile ex4__tile--sm">4</div>
+      <div class="ex4__tile ex4__tile--sm">5</div>
+    </div>
+  </section>
+  <div class="rule"></div>
+
+  <h2>5. Cinta con cuatro items centrados</h2>
+  <section class="section ex5">
+    <div class="ex5__belt">
+      <div class="ex5__pill">1</div>
+      <div class="ex5__card">2</div>
+      <div class="ex5__pill">3</div>
+      <div class="ex5__card" style="min-width:130px;height:78px">4</div>
+    </div>
+  </section>
+  <div class="rule"></div>
+
+  <h2>6. Catálogo de productos (wrap)</h2>
+  <section class="section ex6">
+    <div class="ex6__wrap">
+      <article class="product">
+        <div class="product__media"><div class="product__img"></div></div>
+        <div class="product__body">
+          <div class="product__title">Salsa de tomate 350g</div>
+          <div class="product__price">L 25.00</div>
+        </div>
+        <div class="product__actions"><button class="product__btn">+</button></div>
+      </article>
+      <article class="product">
+        <div class="product__media"><div class="product__img"></div></div>
+        <div class="product__body">
+          <div class="product__title">Mayonesa clásica 400g</div>
+          <div class="product__price">L 48.00</div>
+        </div>
+        <div class="product__actions"><button class="product__btn">+</button></div>
+      </article>
+      <article class="product">
+        <div class="product__media"><div class="product__img"></div></div>
+        <div class="product__body">
+          <div class="product__title">Mostaza 250g</div>
+          <div class="product__price">L 29.00</div>
+        </div>
+        <div class="product__actions"><button class="product__btn">+</button></div>
+      </article>
+      <article class="product">
+        <div class="product__media"><div class="product__img"></div></div>
+        <div class="product__body">
+          <div class="product__title">Mermelada fresa 300g</div>
+          <div class="product__price">L 56.00</div>
+        </div>
+        <div class="product__actions"><button class="product__btn">+</button></div>
+      </article>
+      <article class="product">
+        <div class="product__media"><div class="product__img"></div></div>
+        <div class="product__body">
+          <div class="product__title">Salsa BBQ 500g</div>
+          <div class="product__price">L 79.00</div>
+        </div>
+        <div class="product__actions"><button class="product__btn">+</button></div>
+      </article>
+      <article class="product">
+        <div class="product__media"><div class="product__img"></div></div>
+        <div class="product__body">
+          <div class="product__title">Aderezo Ranch 355ml</div>
+          <div class="product__price">L 64.00</div>
+        </div>
+        <div class="product__actions"><button class="product__btn">+</button></div>
+      </article>
+      <article class="product">
+        <div class="product__media"><div class="product__img"></div></div>
+        <div class="product__body">
+          <div class="product__title">Aderezo César 355ml</div>
+          <div class="product__price">L 64.00</div>
+        </div>
+        <div class="product__actions"><button class="product__btn">+</button></div>
+      </article>
+      <article class="product">
+        <div class="product__media"><div class="product__img"></div></div>
+        <div class="product__body">
+          <div class="product__title">Aderezo Mil Islas 355ml</div>
+          <div class="product__price">L 64.00</div>
+        </div>
+        <div class="product__actions"><button class="product__btn">+</button></div>
+      </article>
+    </div>
+  </section>
+  <div class="rule"></div>
+
+  <footer style="text-align:center;font-size:12px;padding:24px;color:#777">Hecho con metodología BEM + Flexbox</footer>
+</body>
+</html>
